@@ -7,10 +7,10 @@ self.addEventListener("install", (event) => {
       // Add all the assets in the array to the 'MyCacheName_v1'
       // `Cache` instance for later use.
       return cache.addAll([
-        "/img/favicon.ico",
-        "/css/style.css",
-        "/img/cat.png",
-        "/img/android-chrome-512x512.png",
+        "./img/favicon.ico",
+        "./css/style.css",
+        "./img/cat.png",
+        "./img/android-chrome-512x512.png",
       ]);
     })
   );
@@ -43,7 +43,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   // serve the cat SVG from the cache if the request is
   // same-origin and the path is '/dog.svg'
-  if (url.origin == location.origin && url.pathname == "/img/dog.png") {
-    event.respondWith(caches.match("/img/android-chrome-512x512.png"));
+  if (url.origin == location.origin && url.pathname == "./img/dog.png") {
+    event.respondWith(caches.match("./img/android-chrome-512x512.png"));
   }
 });
