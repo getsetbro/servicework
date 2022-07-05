@@ -43,7 +43,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   // serve the cat SVG from the cache if the request is
   // same-origin and the path is '/dog.svg'
-  if (url.origin == location.origin && url.pathname == "./img/dog.png") {
+  if (url.origin == location.origin && url.pathname.includes("/img/dog.png")) {
     event.respondWith(caches.match("./img/android-chrome-512x512.png"));
   }
 });
