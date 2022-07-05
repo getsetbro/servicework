@@ -11,19 +11,40 @@
     <script>
       // Don't register the service worker
       // until the page has fully loaded
-      // window.addEventListener("load", () => {
-      // Is service worker available?
-      navigator.serviceWorker
-        .register("./sw.js")
-        .then((reg) => console.log("SW registered!", reg))
-        .catch((err) => console.log("Boo!", err));
+      window.addEventListener("load", () => {
+        // Is service worker available?
+        navigator.serviceWorker.register("/sw.js").then((reg) => {
+          // reg.installing; // the installing worker, or undefined
+          // reg.waiting; // the waiting worker, or undefined
+          // reg.active; // the active worker, or undefined
+          reg.addEventListener("updatefound", () => {
+            // A wild service worker has appeared in reg.installing!
+            const newWorker = reg.installing;
+            newWorker.state;
+            // "installing" - the install event has fired, but not yet complete
+            // "installed"  - install complete
+            // "activating" - the activate event has fired, but not yet complete
+            // "activated"  - fully active
+            // "redundant"  - discarded. Either failed install, or it's been
+            //                replaced by a newer version
+            newWorker.addEventListener("statechange", () => {
+              // newWorker.state has changed
+            });
+          });
+        });
 
-      setTimeout(() => {
-        const img = new Image();
-        img.src = "./img/dog.png";
-        document.body.appendChild(img);
-      }, 3000);
-      // });
+        setTimeout(() => {
+          const img = new Image();
+          img.src = "./img/dog.png";
+          document.body.appendChild(img);
+        }, 3000);
+
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          // This fires when the service worker controlling this page
+          // changes, eg a new worker has skipped waiting and become
+          // the new active worker.
+        });
+      });
     </script>
   </body>
 </html>

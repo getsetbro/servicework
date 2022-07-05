@@ -1,7 +1,10 @@
-const cacheKey = "MyCacheName_v2";
+const cacheKey = "swapp-static-v1";
 
 self.addEventListener("install", (event) => {
   console.log("sw installing…");
+
+  self.skipWaiting(); // caution: don't use this if it causes issues
+
   event.waitUntil(
     caches.open(cacheKey).then((cache) => {
       // Add all the assets in the array to the 'MyCacheName_v1'
